@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Listing;
+use App\Http\Controllers\ListingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,15 +12,20 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
- */
+*/
+
+//Nomenclatore funzioni
+//index - Tutti
+//show - Uno
+//create - Form inserimento
+//store - Salvataggio
+//edit - Form modifica
+//update - Aggiornamento
+//destroy - Cancellazione
+
 //Tutti
-Route::get('/', function () {
-    //return view('welcome');
-    return view('listings', [
-        'heading'  => 'Latest listings',
-        'listings' => Listing::all(),
-    ]);
-});
+Route::get('/', [ListingController::class, 'index']);
+
 //Singolo old
 // Route::get('/listings/{id}', function ($id) {
 //     $listing = Listing::find($id);
@@ -30,9 +35,6 @@ Route::get('/', function () {
 //         ]);
 //     } else {abort('404');}
 // });
+
 //Singolo new
-Route::get('/listings/{listing}', function (Listing $listing) {
-    return view('listing', [
-        'listing' => $listing,
-    ]);
-});
+Route::get('/listings/{listing}', [ListingController::class, 'show']);
