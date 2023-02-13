@@ -13,5 +13,13 @@ class Listing extends Model
             //$query->where('tags', 'like', '%' . request('tag') . '%');
             $query->where('tags', 'like', '%' . $filters['tag'] . '%');
         }
+        if ($filters['search'] ?? false) {
+            //$query->where('tags', 'like', '%' . request('tag') . '%');
+            $query->where('title', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('description', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('company', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('location', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('tags', 'like', '%' . $filters['search'] . '%');
+        }
     }
 }
