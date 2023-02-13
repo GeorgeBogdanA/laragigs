@@ -26,6 +26,12 @@ use Illuminate\Support\Facades\Route;
 //Tutti
 Route::get('/', [ListingController::class, 'index']);
 
+//Form inserimento gigs
+Route::get('/listings/create', [ListingController::class, 'create']);
+
+//Salvataggio gigs
+Route::post('/listings', [ListingController::class, 'store']);
+
 //Singolo old
 // Route::get('/listings/{id}', function ($id) {
 //     $listing = Listing::find($id);
