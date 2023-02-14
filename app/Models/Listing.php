@@ -11,7 +11,7 @@ class Listing extends Model
 
     //dichiarazione campi che si possono inserire sul db massivamente tramite form. X evitare: Add [title] to fillable property to allow mass assignment on [App\Models\Listing].
     //Modo 1
-    protected $fillable = ['title', 'tags', 'company', 'location', 'email', 'website', 'description'];
+    protected $fillable = ['title', 'tags', 'company', 'location', 'email', 'website', 'description', 'logo'];
 
     //Modo 2
     //protected $guarded = [];
