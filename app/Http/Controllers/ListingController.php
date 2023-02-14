@@ -6,6 +6,8 @@ use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+//use Illuminate\Support\Facades\Session; //x Session::flash
+
 //use Illuminate\Http\Request;
 
 class ListingController extends Controller
@@ -42,7 +44,14 @@ class ListingController extends Controller
             'tags' => 'required',
             'description' => 'required'
         ]);
+
         Listing::create($formFields);
-        return redirect('/');
+
+        //Notifica flash
+        //Modo 1
+        //Session::flash('message', 'Gig inserito!');
+
+        return redirect('/')->with('message', 'Gig inserito!');
+        ;
     }
 }
