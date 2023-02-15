@@ -88,4 +88,10 @@ class ListingController extends Controller
         return back()->with('message', 'Gig modificato!');
 
     }
+
+    public function destroy(Listing $listing) {
+        $listing->delete();
+
+        return redirect('/')->with('message', 'Gig cancellato!');
+    }
 }
