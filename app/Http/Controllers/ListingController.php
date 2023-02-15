@@ -58,6 +58,34 @@ class ListingController extends Controller
         //Session::flash('message', 'Gig inserito!');
 
         return redirect('/')->with('message', 'Gig inserito!');
-        ;
+    }
+
+    //Mostra Form Modifica
+    public function edit(Listing $listing) {
+        return view('listings.edit', ['listing' => $listing]);
+    }
+
+    //Salvataggio modifiche
+    public function update(Request $request, Listing $listing) {
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => ['required'],
+            'location' => 'required',
+            'website' => 'required',
+            'email' => ['required', 'email'],
+            'tags' => 'required',
+            'description' => 'required'
+        ]);
+
+        //ctrl se file caricato
+        if ($request->hasFile('logo')) {
+            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+        $listing->update($formFields);
+
+        //Notifica flash
+
+        return back()->with('message', 'Gig modificato!');
+
     }
 }
