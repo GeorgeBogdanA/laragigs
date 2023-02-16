@@ -50,6 +50,7 @@ class ListingController extends Controller
         if ($request->hasFile('logo')) {
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
+        $formFields['user_id'] = auth()->id();
         //dd($formFields);
         Listing::create($formFields);
 
@@ -67,6 +68,12 @@ class ListingController extends Controller
 
     //Salvataggio modifiche
     public function update(Request $request, Listing $listing) {
+
+        //Modifica solo se proprietario
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'company' => ['required'],
@@ -90,8 +97,18 @@ class ListingController extends Controller
     }
 
     public function destroy(Listing $listing) {
+        //Modifica solo se proprietario
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
         $listing->delete();
 
         return redirect('/')->with('message', 'Gig cancellato!');
+    }
+
+    //Manage function
+    public function manage() {
+        return view(
+            'listings.manage', ['listings' => auth()->user()->listings()->get()]);
     }
 }

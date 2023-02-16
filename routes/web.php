@@ -27,20 +27,24 @@ use App\Http\Controllers\ListingController;
 //Tutti
 Route::get('/', [ListingController::class, 'index']);
 
-//Form inserimento gigs
-Route::get('/listings/create', [ListingController::class, 'create']);
 
-//Salvataggio gigs
+//Form inserimento listing solo per utenti registrati
+Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
+
+//Salvataggio listing
 Route::post('/listings', [ListingController::class, 'store']);
 
 //Show Edit Form
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
 
 //Update Listing
-Route::put('/listings/{listing}', [ListingController::class, 'update']);
+Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth');
 
 //Delete Listing
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
+
+//Manage listings
+Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
 
 //Singolo old
 // Route::get('/listings/{id}', function ($id) {
@@ -52,21 +56,21 @@ Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
 //     } else {abort('404');}
 // });
 
-//Singolo new
+//Singolo Listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 //Utenti
 //Registra
-Route::get('/register', [UserController::class, 'create']);
+Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 
 //Store user
 Route::post('/users', [UserController::class, 'store']);
 
-//Login Form
-Route::get('/login', [UserController::class, 'login']);
+//Login Form. Gli do un nome che serve al middleware authenticate
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
 //Login 
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 //Logout
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');

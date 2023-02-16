@@ -11,7 +11,7 @@ class Listing extends Model
 
     //dichiarazione campi che si possono inserire sul db massivamente tramite form. X evitare: Add [title] to fillable property to allow mass assignment on [App\Models\Listing].
     //Modo 1
-    protected $fillable = ['title', 'tags', 'company', 'location', 'email', 'website', 'description', 'logo'];
+    protected $fillable = ['user_id', 'title', 'tags', 'company', 'location', 'email', 'website', 'description', 'logo'];
 
     //Modo 2
     //protected $guarded = [];
@@ -29,5 +29,9 @@ class Listing extends Model
                 ->orWhere('location', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('tags', 'like', '%' . $filters['search'] . '%');
         }
+    }
+    //Relationship To User
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
